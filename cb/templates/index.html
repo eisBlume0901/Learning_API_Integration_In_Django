@@ -12,12 +12,9 @@
                     @apply bg-gradient-to-r from-yellow-100 to-amber-400 text-amber-900 text-sm font-medium px-4 py-2 rounded-xl border-4 border-amber-500;
                 }
 
-                .screen-width {
-                    @apply max-w-screen-lg mx-auto;
-                }
 
                 .container {
-                    @apply bg-gradient-to-r from-yellow-300 to-amber-500 p-1 rounded-2xl;
+                    @apply bg-gradient-to-r from-yellow-300 to-amber-500 p-1 rounded-2xl mt-4;
                 }
                 .message-body, .prompt-message {
                     @apply bg-amber-50 text-amber-900 p-1 rounded-xl;
@@ -38,6 +35,12 @@
                 textarea {
                     @apply w-11/12 p-4 text-amber-900 bg-amber-50 rounded-xl;
                 }
+
+                form {
+                    @apply fixed bottom-12 w-full max-w-screen-md mx-auto;
+                }
+
+    
             }
         </style>
     </head>
@@ -52,16 +55,14 @@
                 </button>
             </div>
         </nav>
-        <div class="max-w-screen-md mx-auto mt-4">
+        <div class="max-w-screen-md h-full mx-auto mt-4">
             {% block content %}
             {% endblock %}
-        </div>
-      
 
-        <footer class="text-center my-4 text-xs font-normal">
-            <p>Copyright &copy; {% now "Y" %}</p>
-            <p>Made with <span class="text-red-500">&hearts;</span> by <a href="https://www.github.com/eisBlume0901">eisBlume0901</a></p>
-            <p>Code from <a href="https://github.com/tomitokko">tomitokko</a></p>
-        </footer>
+            <footer>
+                
+            </footer>
+        </div>
+    
     </body>
 </html>
