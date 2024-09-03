@@ -6,10 +6,10 @@
             <div class="message-text">
                 <div class="container">
                     <div class="message-body">
-                        <h1 class="message-sender">
+                        <h1 class="message-sender amber-ai">
                             AmberAI
                         </h1>
-                        <p class="message-content">
+                        <p class="message-content amber-ai-content">
                             Ask Amber Anything!
                         </p>
                     </div>
@@ -35,6 +35,24 @@
     const messageForm = document.querySelector(".message-form");
     const messageInput = document.querySelector(".message-input");
 
+
+    function extractChatHistory() {
+            const history = [];
+            const userMessages = document.querySelectorAll('.user-content');
+            const botMessages = document.querySelectorAll('.amber-ai-content');
+
+            userMessages.forEach((userMessage, index) => {
+                const botMessage = botMessages[index];
+                history.push({
+                    user: userMessage.textContent.trim(),
+                    bot: botMessage ? botMessage.textContent.trim() : ''
+                });
+            });
+
+            return history;
+        }
+
+        
     messageForm.addEventListener("submit", (event) => {
         event.preventDefault();
 
@@ -49,10 +67,10 @@
             <div class="message-text">
                 <div class="container">
                     <div class="message-body">
-                        <h1 class="message-sender">
+                        <h1 class="message-sender user">
                             You    
                         </h1>
-                        <p class="message-content">
+                        <p class="message-content user-content">
                             ${message}
                         </p>
                     </div>
@@ -64,15 +82,17 @@
 
         messageInput.value = "";
 
+        // The fetch API is used to send the message to the server and receive the response or data from the server.
         fetch('', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({
                 'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-                'message': message
+                'message': message,
+                'history': extractChatHistory()
             })
         })
-        .then(response => response.json())
+        .then(response => response.json()) 
         .then(data => {
             const response = data.response;
             const messageItem = document.createElement('li');
@@ -81,11 +101,11 @@
                 <div class="message-text">
                     <div class="container">
                         <div class="message-body">
-                            <h1 class="message-sender">
-                                AI Chatbot
+                            <h1 class="message-sender amber-ai">
+                                AmberAI
                             </h1>
-                            <p class="message-content">
-                                ${response}
+                            <p class="message-content amber-ai-content">
+                                ${response} 
                             </p>
                         </div>
                     </div>
