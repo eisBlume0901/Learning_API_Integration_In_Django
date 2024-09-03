@@ -1,19 +1,36 @@
 {% extends 'index.html' %}
 {% block title %}AmberAI{% endblock %}
 {% block content %}
-<div>
-    <div class="card">
-        <div class="message-body">
-            <h1 class="message-sender">
-                AmberAI
-            </h1>
-            <p class="message-content">
-                Ask Amber Anything!
-            </p>
+<ul>
+    <li class="message received">
+        <div class="message-text">
+            <div class="container">
+                <div class="message-body">
+                    <h1 class="message-sender">
+                        AmberAI
+                    </h1>
+                    <p class="message-content">
+                        Ask Amber Anything!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </li>
+</ul>
+<br>
+<br>
+<br>
+<form>
+    {% csrf_token %}
+    <div class="container">
+        <div class="prompt-message">
+            <textarea placeholder="Ask AmberAI" rows="2" cols="2"></textarea>
+            <button type="submit">Send</button>
         </div>
        
-
-
     </div>
-</div>
+  
+</form>
+    
+    
 {% endblock %}
