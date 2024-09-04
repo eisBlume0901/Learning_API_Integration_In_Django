@@ -1,0 +1,74 @@
+{% extends 'index.html' %}
+{% block title %}Sign up to AmberAI{% endblock%}
+{% block content %}
+<form method="POST" class="register-form ">
+    {% csrf_token %}
+    <div>
+        <div class="user-form-label">
+            {{ form.username.label }}
+        </div>
+
+        <div class="user-form-inputs">
+            {{ form.username }}
+
+            {% if form.username.errors %}
+                {% for error in form.username.errors %}
+                    <div class="user-form-errors">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="user-form-label">
+            {{ form.email.label }}
+        </div>
+
+        <div class="user-form-inputs">
+            {{ form.email }}
+
+            {% if form.email.errors %}
+                {% for error in form.email.errors %}
+                    <div class="user-form-errors">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="user-form-label">
+            {{ form.password1.label }}
+        </div>
+
+        <div class="user-form-inputs">
+            {{ form.password1 }}
+
+            {% if form.password1.errors %}
+                {% for error in form.password1.errors %}
+                    <div class="user-form-errors">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="user-form-inputs">
+            {{ form.password2.label }}
+        </div>
+
+        <div class="user-form-inputs">
+            {{ form.password2 }}
+
+            {% if form.password2.errors %}
+                {% for error in form.password1.errors %}
+                    <div class="user-form-errors">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+        </div>
+    </div>
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}

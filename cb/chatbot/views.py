@@ -4,6 +4,8 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 import os
 import json
+from django.contrib.auth import authenticate, login
+from .forms import *
 
 # Load environment variables from .env file
 load_dotenv()
@@ -36,9 +38,21 @@ def ask_googlegenerativeai(message):
     model_response = response.text
     return model_response
 
-def chatbot(request):
+def amberai(request):
     if request.method == 'POST':
         message = request.POST.get('message')  
         response = ask_googlegenerativeai(message)
         return JsonResponse({'response': response})
     return render(request, 'chatbot.html')
+
+def login(request):
+
+    return render(request, 'login.html')
+
+def register(request):
+    form = CustomUserCreationForm()
+
+    content = {
+        "form": form
+    }
+    return render(request, 'register.html', content)
