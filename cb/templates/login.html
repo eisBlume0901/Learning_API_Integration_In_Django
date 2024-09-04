@@ -6,14 +6,14 @@
     <div>
 
         <div class="account-form-label">
-            {{ form.email.label }}
+            {{ form.username.label }}
         </div>
 
         <div class="account-form-inputs">
-            {{ form.email }}
+            {{ form.username }}
 
-            {% if form.email.errors %}
-                {% for error in form.email.errors %}
+            {% if form.username.errors %}
+                {% for error in form.username.errors %}
                     <div class="account-form-errors">
                         {{ error }}
                     </div>
@@ -22,7 +22,7 @@
         </div>
 
         <div class="account-form-label">
-            {{ form.password1.label }}
+            {{ form.password.label }}
         </div>
 
         <div class="account-form-inputs">
@@ -38,6 +38,16 @@
         </div>
 
     </div>
-    <button type="submit">Submit</button>
+    <button type="submit" name="Submit">Submit</button>
 </form>
+
+<div class="relative">
+    <div class="flex flex-col absolute">
+        {% for message in messages %}
+            <div class="feedback-message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

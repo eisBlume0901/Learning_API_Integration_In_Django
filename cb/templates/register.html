@@ -69,6 +69,15 @@
 
         </div>
     </div>
-    <button type="submit">Submit</button>
+    <button type="submit" name="Submit">Submit</button>
 </form>
+<div class="relative">
+    <div class="flex flex-col absolute">
+        {% for message in messages %}
+            <div class="feedback-message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

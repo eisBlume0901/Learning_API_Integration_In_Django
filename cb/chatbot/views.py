@@ -1,11 +1,13 @@
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
 import json
-from django.contrib.auth import authenticate, login
 from .forms import *
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib import auth
+from django.contrib import messages
 
 # Load environment variables from .env file
 load_dotenv()
@@ -46,11 +48,34 @@ def amberai(request):
     return render(request, 'chatbot.html')
 
 def login(request):
-    form = AuthenticatedUserForm()
-
+    form = AuthenticationForm()
+    if request.method == "POST":
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = auth.authenticate(username=username, password=password)
+            if user is not None:
+                auth.login(request, user)
+                messages.success(request, f'Welcome back {username}!')
+                return redirect('amberai')
+            else:
+                messages.error(request, 'Invalid username or password. Please try again.')
     return render(request, 'login.html', {'form': form})
 
 def register(request):
     form = CustomUserCreationForm()
+    if request.method == "POST":
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            messages.success(request, f'Account was created successfully for {user}')
+            return redirect('login')
+        else:
+            messages.error(request, "There was an error creating the account. Please try again.")
 
     return render(request, 'register.html', {'form': form})
+
+def logout(request):
+    auth.logout(request)
+    return redirect('login')
