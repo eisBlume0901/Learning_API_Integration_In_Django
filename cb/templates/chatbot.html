@@ -35,23 +35,6 @@
     const messageForm = document.querySelector(".message-form");
     const messageInput = document.querySelector(".message-input");
 
-
-    function extractChatHistory() {
-            const history = [];
-            const userMessages = document.querySelectorAll('.user-content');
-            const botMessages = document.querySelectorAll('.amber-ai-content');
-
-            userMessages.forEach((userMessage, index) => {
-                const botMessage = botMessages[index];
-                history.push({
-                    user: userMessage.textContent.trim(),
-                    bot: botMessage ? botMessage.textContent.trim() : ''
-                });
-            });
-
-            return history;
-        }
-
         
     messageForm.addEventListener("submit", (event) => {
         event.preventDefault();
@@ -89,7 +72,6 @@
             body: new URLSearchParams({
                 'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
                 'message': message,
-                'history': extractChatHistory()
             })
         })
         .then(response => response.json()) 
