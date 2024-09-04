@@ -46,13 +46,11 @@ def amberai(request):
     return render(request, 'chatbot.html')
 
 def login(request):
+    form = AuthenticatedUserForm()
 
-    return render(request, 'login.html')
+    return render(request, 'login.html', {'form': form})
 
 def register(request):
     form = CustomUserCreationForm()
 
-    content = {
-        "form": form
-    }
-    return render(request, 'register.html', content)
+    return render(request, 'register.html', {'form': form})

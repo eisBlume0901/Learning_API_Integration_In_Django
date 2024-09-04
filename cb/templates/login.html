@@ -1,5 +1,43 @@
 {% extends 'index.html' %}
 {% block title %}Login to AmberAI{% endblock%}
 {% block content %}
+<form method="POST" class="account-form ">
+    {% csrf_token %}
+    <div>
 
+        <div class="account-form-label">
+            {{ form.email.label }}
+        </div>
+
+        <div class="account-form-inputs">
+            {{ form.email }}
+
+            {% if form.email.errors %}
+                {% for error in form.email.errors %}
+                    <div class="account-form-errors">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="account-form-label">
+            {{ form.password1.label }}
+        </div>
+
+        <div class="account-form-inputs">
+            {{ form.password }}
+
+            {% if form.password.errors %}
+                {% for error in form.password.errors %}
+                    <div class="account-form-errors">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+    </div>
+    <button type="submit">Submit</button>
+</form>
 {% endblock %}
