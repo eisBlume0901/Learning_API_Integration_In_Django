@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
@@ -41,11 +41,13 @@ def ask_googlegenerativeai(message):
     return model_response
 
 def amberai(request):
+    user = get_object_or_404(User, username=request.user.username)
+    
     if request.method == 'POST':
         message = request.POST.get('message')  
         response = ask_googlegenerativeai(message)
         return JsonResponse({'response': response})
-    return render(request, 'chatbot.html')
+    return render(request, 'chatbot.html', {'user': user})
 
 def login(request):
     form = AuthenticationForm()
