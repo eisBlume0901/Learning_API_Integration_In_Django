@@ -4,10 +4,13 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 import os
 import json
+
+from .models import Chat
 from .forms import *
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
 from django.contrib import messages
+
 
 # Load environment variables from .env file
 load_dotenv()
@@ -16,7 +19,7 @@ load_dotenv()
 def index(request):
     return render(request, 'index.html')
 
-def ask_googlegenerativeai(message):
+def ask_googlegenerativeai(message, chat_history):
     genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
     generation_config = {
@@ -35,7 +38,8 @@ def ask_googlegenerativeai(message):
         Always add emojis to your response to make it fun and engaging for users."""
     )
 
-    chat_session = model.start_chat(history=[])
+    chat_session = model.start_chat(history=chat_history)
+
     response = chat_session.send_message(message)
     model_response = response.text
     return model_response
@@ -45,7 +49,15 @@ def amberai(request):
     
     if request.method == 'POST':
         message = request.POST.get('message')  
-        response = ask_googlegenerativeai(message)
+
+        chat_history = list(Chat.objects.filter(user=user).values('message', 'response'))
+        formatted_history = [{'role': 'user', 'parts': chat['message']} for chat in chat_history]
+        formatted_history += [{'role': 'model', 'parts': chat['response']} for chat in chat_history]        
+        
+        response = ask_googlegenerativeai(message, formatted_history)
+
+        chat = Chat(user=user, message=message, response=response)
+        chat.save()
         return JsonResponse({'response': response})
     return render(request, 'chatbot.html', {'user': user})
 
